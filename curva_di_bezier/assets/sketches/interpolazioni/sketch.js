@@ -3,21 +3,24 @@ let selected = -1;
 let slider;
 
 const panelW = 400;
-const panelH = 450; // Ridotta l'altezza dei pannelli per fare spazio in alto e in basso
+const panelH = 450; 
 
 function setup(){
   // Crea e aggancia il canvas al suo contenitore specifico
   let canvas = createCanvas(1200, 560);
   canvas.parent("canvas-container");
+  
+  // Rende lo sfondo del canvas HTML trasparente
+  canvas.style('background-color', 'transparent');
 
-  // Inizializzazione punti di controllo spostati leggermente più in alto
+  // Inizializzazione punti di controllo
   points = [
     createVector(80, 320),
     createVector(200, 60),
     createVector(320, 320)
   ];
 
-  // Crea lo slider e lo posiziona nel contenitore HTML in cima ai grafici
+  // Crea lo slider nel suo contenitore HTML
   slider = createSlider(5, 50, 25, 5);
   slider.parent("slider-container");
 
@@ -26,7 +29,8 @@ function setup(){
 }
 
 function draw(){
-  background(255);
+  // Pulisce il frame precedente mantenendo la totale trasparenza
+  clear(); 
 
   let step = slider.value();
 
@@ -35,7 +39,7 @@ function draw(){
     drawPanel(p, step);
   }
 
-  // Scritta con percentuale dinamica posizionata sul fondo del canvas
+  // Scritta con percentuale dinamica sul fondo
   noStroke();
   fill("#5E3A87");
   textAlign(CENTER);
@@ -55,7 +59,7 @@ function drawPanel(panel, step){
     line(offsetX, 0, offsetX, panelH);
   }
 
-  // Titoli spostati sul fondo (Y = 480) per non sovrapporsi alle linee superiori
+  // Titoli sul fondo
   noStroke();
   fill("#4B2E83");
   textAlign(CENTER);
@@ -91,18 +95,18 @@ function drawPanel(panel, step){
     fill(c);
     stroke(c);
 
-    // Pannello 1: Punti sulle linee di controllo con etichette SOTTO i cerchi
+    // Pannello 1
     if(panel === 0){
       circle(offsetX + p1.x, p1.y, 10);
       circle(offsetX + p2.x, p2.y, 10);
       noStroke();
       fill("#5E3A87");
       textAlign(CENTER);
-      text(i + "%", offsetX + p1.x, p1.y + 22); // Spostato sotto (y + 22)
-      text(i + "%", offsetX + p2.x, p2.y + 22); // Spostato sotto (y + 22)
+      text(i + "%", offsetX + p1.x, p1.y + 22);
+      text(i + "%", offsetX + p2.x, p2.y + 22);
     }
 
-    // Pannello 2: Segmenti interni intermedi con etichette SOTTO il punto centrale
+    // Pannello 2
     if(panel === 1){
       stroke(c);
       line(offsetX + p1.x, p1.y, offsetX + p2.x, p2.y);
@@ -113,17 +117,17 @@ function drawPanel(panel, step){
       noStroke();
       fill("#5E3A87");
       textAlign(CENTER);
-      text(i + "%", offsetX + p.x, p.y + 18); // Spostato sotto (y + 18)
+      text(i + "%", offsetX + p.x, p.y + 18);
     }
 
-    // Pannello 3: Valori parametrici t stampati SOTTO i rispettivi punti
+    // Pannello 3
     if(panel === 2){
       noStroke();
       fill(c);
       circle(offsetX + p.x, p.y, 5);
       fill("#5E3A87");
       textAlign(CENTER);
-      text("t=" + nf(t, 1, 2), offsetX + p.x, p.y + 18); // Spostato sotto (y + 18)
+      text("t=" + nf(t, 1, 2), offsetX + p.x, p.y + 18);
     }
   }
 
@@ -138,7 +142,7 @@ function drawPanel(panel, step){
 
   text(testo, offsetX + panelW / 2, 510);
 
-  // Disegno e coordinate dei Punti di Controllo trascinabili (Testo SOTTO il cerchio)
+  // Disegno e coordinate dei Punti di Controllo
   fill("#2E003E");
   stroke("#2E003E");
   for(let pt of points){
@@ -149,7 +153,7 @@ function drawPanel(panel, step){
     text(
       "(" + floor(pt.x) + "," + floor(pt.y) + ")",
       offsetX + pt.x,
-      pt.y + 24 // Spostato stabilmente sotto la coordinata del cerchio
+      pt.y + 24
     );
   }
 }
@@ -176,7 +180,7 @@ function mouseDragged(){
   if(selected !== -1){
     let localX = mouseX % panelW;
     points[selected].x = constrain(localX, 20, panelW - 20);
-    points[selected].y = constrain(mouseY, 40, panelH - 40); // Vincolato dentro l'altezza del pannello ridotto
+    points[selected].y = constrain(mouseY, 40, panelH - 40);
   }
 }
 

@@ -73,13 +73,29 @@ ul {
 	padding: 0;
 }
 
-/* -- breakpoint: schermi piccoli, larghezza massima 500 pixel -- */
+/* === MODIFICATO: Dimensioni originali native senza distorsione === */
+.gallery-container {
+	display: flex;
+	justify-content: center;        /* Centra il blocco delle immagini nella pagina */
+	align-items: center;           /* Allinea le immagini al centro in altezza */
+	gap: 35px;                     /* Spazio fisso di separazione tra le immagini */
+	width: 100%;
+	margin-bottom: 2em;
+}
+
+.gallery-container img {
+	width: auto !important;        /* Rimuove blocchi precedenti e usa la larghezza reale dell'SVG */
+	height: auto !important;       /* Mantiene l'altezza reale dell'SVG */
+	max-width: 100%;               /* Sicurezza per non farle mai uscire dal contenitore */
+}
+
+/* -- breakpoint: schermi piccoli, larghezza massima 600 pixel -- */
 
 @media only screen and (max-width: 600px) {
 	.contenitore {
 		width:100%;
 	}
-	.contenuto-sezione {
+	.contenido-sezione {
 		width: 100%;
 	}
 	.titolo-sezione {
@@ -87,5 +103,16 @@ ul {
 	}
 	img {
 		width: 100%;
+	}
+	
+	/* Layout verticale per smartphone */
+	.gallery-container {
+		flex-direction: column;
+		gap: 25px;
+	}
+	
+	.gallery-container img {
+		width: auto !important;    /* Mantiene la dimensione originale anche su smartphone */
+		max-width: 90%;            /* Se lo schermo è troppo piccolo, si rimpiccioliscono senza rompersi */
 	}
 }
