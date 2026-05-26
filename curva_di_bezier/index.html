@@ -225,6 +225,79 @@
 		<!-- --------------------------------------------------------------------- -->
 
 		<section class="filetto">
+			<h4 class="titolo-sezione"> L'algoritmo di Casteljau</h4>
+			<div class="contenuto-sezione">
+				<p>
+					Se vogliamo disegnare una curva di Bézier possiamo scegliere di prendere ogni valore di t e calcolare ogni</li>
+					volta attraverso la funzione base le sue coordinate.</li>
+					Ciò però diventa sempre più complicato da calcolare in base a quanto più complessa la curva diventa.</li>
+					Per facilitare il calcolo, si utilizzano algoritmi specifici come l'algoritmo di De Casteljau,</li>
+					un approccio geometrico per costruire la curva.</li>
+					Per farlo dobbiamo trattare t come un parametro che varia da 0 a 1 e sapere che il numero di curve equivale al numero di linee di costruzione.</li>
+					Poi dobbiamo segnare un punto su ognuna delle linee a distanza t e tracciare una linea che li colleghi.</li>
+					Bisognerà ripetere questi passaggi fino ad avere una singola linea in qui a distanza t si troveranno le coordinate del punto.</li>
+					Trovare le coordinate dei punti lungo la curva può servirci a semplificare il disegno della curva e a dividerla.
+
+				</p>
+				<img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Circle_radians.gif">
+			</div>
+		</section>
+
+			<!-- --------------------------------------------------------------------- -->
+
+		<section class="filetto">
+			<h4 class="titolo-sezione"> Dividere la curva</h4>
+			<div class="contenuto-sezione">
+				<p>
+					Utilizzando l'algoritmo di Casteljau possiamo dividere una curva di Bézier in due curve più semplici,
+					 ognuna con i propri punti di controllo. 
+					 Per farlo dobbiamo scegliere un valore di t e applicare l'algoritmo per trovare le coordinate del punto corrispondente sulla curva.
+					 Poi, utilizzando i punti di controllo e il punto trovato, possiamo costruire due nuove curve di Bézier che insieme formano la curva originale. 
+					 Ciò è utile per semplificare il disegno della curva e facilitare il calcolo della lunghezza approssimata.
+
+				</p>
+				<img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Circle_radians.gif">
+			</div>
+		</section>
+
+		<!-- --------------------------------------------------------------------- -->
+
+		<section class="filetto">
+			<h4 class="titolo-sezione"> Sempificare il disegno</h4>
+			<div class="contenuto-sezione">
+				<p>
+					Selezionando un certo numero di punti della curva e unendoli delle linee dritte
+					possiamo semplificare il disegno della curva, riducendola ad una semplice sequenza di segmenti lineari.
+					Ciò rende meno pesante il calcolo in quanto non servirà calcolare un alto numero di coordinate ottenendo comunque una curva
+					abbastanza credibile. Inoltre semplificare il disegno ci può aiutare anche a calcolare la lunghezza approssimata della curva.
+					Però più la curva è complessa e più segmenti lineari serviranno per visualizzare le variazioni della curva, 
+					altrimenti rischiamo di ottenere una curva troppo semplificata che non riesce a rappresentare le variazioni di forma.
+
+				</p>
+				<img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Circle_radians.gif">
+			</div>
+		</section>
+
+		<!-- --------------------------------------------------------------------- -->
+
+		<section class="filetto">
+			<h4 class="titolo-sezione"> Lunghezza della curva approssimata</h4>
+			<div class="contenuto-sezione">
+				<p>
+					Il modo più semplice per calcolare la lunghezza di una curva di Bézier è quello di
+					semplificare il disegno per poi calcolare la lunghezza dei segmenti lineari che la compongono.
+					ovviamente ciò non ci permetterà di trovare la lunghezza esatta della curva, bensì
+					un stima approssimata.
+					Il margine di errore può essere però ridotto aumentando il numero di segmenti lineari.
+					
+				</p>
+				<img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Circle_radians.gif">
+			</div>
+		</section>
+
+		
+
+		<section class="filetto">
 			<h4 class="titolo-sezione">Bibliografia</h4>
 			<div class="contenuto-sezione">
 				<ul>
@@ -245,6 +318,35 @@
 					<li>Maecenas quam nulla, porta eu nibh in, cursus iaculis mauris</li>
 					<li>Phasellus sit amet nulla eu tellus dictum cursus</li>
 					<li>Sed aliquet, ipsum sit amet tempus semper, augue velit consequat mi, et gravida sem purus a quam
+					</li>
+				</ul>
+
+			</div>
+		</section>
+
+        <!-- --------------------------------------------------------------------- -->
+
+		<section class="filetto">
+			<h4 class="titolo-sezione">L'algoritmo di Casteljau</h4>
+			<div class="contenuto-sezione">
+				<ul>
+					<li>
+						<a target="_blank" href="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia (en):
+							Trigonometric functions</a>
+					</li>
+					<li>Se vogliamo disegnare una curva di Bézier possiamo scegliere di prendere ogni valore di t e calcolare ogni</li>
+					<li>volta attraverso la funzione base le sue coordinate.</li>
+					<li>Ciò però diventa sempre più complicato da calcolare in base a quanto più complessa la curva diventa.</li>
+					<li>Per facilitare il calcolo, si utilizzano algoritmi specifici come l'algoritmo di De Casteljau,</li>
+					<li>un approccio geometrico per costruire la curva.</li>
+					<li>Per farlo dobbiamo trattare t come un parametro che varia da 0 a 1 e sapere che il numero di curve equivale al numero di linee di costruzione.</li>
+					<li>Poi dobbiamo segnare un punto su ognuna delle linee a distanza t e tracciare una linea che li colleghi.</li>
+					<li>Bisognerà ripetere questi passaggi fino ad avere una singola linea in qui a distanza t si troveranno le coordinate del punto.</li>
+					<li>Trovare le coordinate dei punti lungo la curva può servirci a semplificare il disegno della curva e a dividerla.</li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li>
 					</li>
 				</ul>
 
