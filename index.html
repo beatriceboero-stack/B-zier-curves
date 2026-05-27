@@ -12,6 +12,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./assets/css/main.css">
+    <style>
+    /* Override: disable uppercase for index and section titles */
+    .indice-titolo,
+    .titolo-sezione,
+    h4,
+    .index-item a {
+        text-transform: none !important;
+    }
+    </style>
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
@@ -27,23 +36,23 @@
         <section id="introduzione" class="filetto curva-1">
             <h4 class="titolo-sezione">Introduzione</h4>
             <div class="contenuto-sezione">
-                <p>Le curve di Bézier sono utilizzate per descrivere curve lisce e controllabili attraverso un insieme di punti geometrici chiamati punti di controllo. Esse sono strumenti fondamentali della geometria computazionale e della grafica digitale, sono impiegate in grafica vettoriale, animazione, modellazione 3D, CAD, tipografia digitale, videogiochi e software Adobe.</p>
+                <p>Le curve di Bézier sono utilizzate per descruire curve lisce e controllabili attraverso un insieme di punti geometrici chiamati punti di controllo. Esse sono strumenti fondamentali della geometria computazionale e della grafica digitale, sono impiegate in grafica vettoriale, animazione, modellazione 3D, CAD, tipografia digitale, videogiochi e software Adobe.</p>
                 <p>Pierre Bézier fu un ingegnere e matematico francese che lavorava per la casa automobilistica Renault negli anni ’60. Durante la progettazione delle carrozzerie delle automobili, si rese conto che i metodi geometrici tradizionali non permettevano di creare superfici abbastanza fluide, precise e facilmente modificabili.</p>
                 <p>Per risolvere questo problema sviluppò un modello matematico basato su punti di controllo e funzioni parametriche, capace di descrivere curve morbide e continue: nacquero così le curve di Bézier. La sua teoria rivoluzionò il design industriale e divenne fondamentale nella grafica computerizzata, nei software vettoriali, nei software di animazione e nella modellazione 3D.</p>
             </div>
         </section>
 
         <section id="interpolazioni" class="filetto curva-2">
-            <h4 class="titolo-sezione">Interpolazioni</h4>
+            <h4 class="titolo-sezione">Interpolazioni lineari</h4>
             <div class="contenuto-sezione">
                 <p>Una curva di Bézier è definita da un insieme di punti chiamati punti di controllo. Tra questi, solo il primo e l’ultimo determinano gli estremi della curva, mentre i punti intermedi ne influenzano la forma, agendo come vincoli geometrici che ne modificano direzione, inclinazione e curvatura. La costruzione della curva si basa sull’interpolazione lineare, un processo che permette di ottenere punti intermedi tra due posizioni nello spazio attraverso una combinazione pesata controllata da un parametro t compreso tra 0 e 1. Ripetendo questo procedimento in modo ricorsivo tra i punti di controllo, si genera la curva finale in modo continuo e controllato, mantenendo sempre la struttura determinata dai punti iniziali.</p>
-                <p><em>Grafico interattivo con interpolazione lineare tra i punti di controllo, con coordinate tracciate in tempo reale:</em></p>
+                <p><em class="no-uppercase">Grafico con interpolazione lineare tra i punti di controllo, con coordinate tracciate in tempo reale:</em></p>
                 <iframe class="full-bleed" scrolling="no" frameborder="0" height="500" src="./assets/sketches/grafico_interpolazione_lineare - Copia/"></iframe>
             </div>
         </section>
 
         <section id="parametria" class="filetto curva-3">
-            <h4 class="titolo-sezione">Parametria</h4>
+            <h4 class="titolo-sezione">Funzioni Parametriche</h4>
             <div class="contenuto-sezione">
                 <p>
                     Le curve di Bézier sono funzioni parametriche. A differenza delle funzioni classiche \(y = f(x)\),
@@ -57,10 +66,10 @@
         </section>
 
         <section id="bernstein" class="filetto curva-4">
-            <h4 class="titolo-sezione">Bernstein</h4>
+            <h4 class="titolo-sezione">Polinomi di Bernstein</h4>
             <div class="contenuto-sezione">
                 <p>Le curve di Bézier usano i polinomi di Bernstein per unire i punti di controllo in una linea continua. I polinomi estraggono i coefficienti dal triangolo di Pascal e dallo sviluppo binomiale per assegnare a ogni punto un peso geometrico variabile in base al parametro \(t\). Questo peso cambia in modo graduale lungo l'intervallo \([0,1]\), assicurando che l'influenza di ciascun punto si distribuisca progressivamente senza generare salti o discontinuità per una transizione fluida della forma.</p>
-                <p>Il triangolo di Pascal definisce la struttura combinatoria dei coefficienti binomiali che regolano i pesi dei punti di controllo. Nelle curve di Bézier, questi valori non selezionano i singoli punti, ma permettono a tutti di contribuire contemporaneamente e in modo continuo alla costruzione della forma. L'influenza di ciascun punto varia in base al parametro \(t\), garantendo una distribuzione dei pesi sempre ordinata e simmetrica lungo l'intero percorso della curva.</p>
+                <p>Il triangolo di Pascal definisce la struttura combinatoria dei coefficienti binomiali che regolano i pesi dei punti di controllo. Nelle curve di Bézier, questi valori non selezionano i singoli punti, ma permettono a tutti di contribuire contemporaneamente e in modo continuo alla costruzione della forma. L'influenza di ciascun punto varia in base al parametro \(t\), garantendo una distributione dei pesi sempre ordinata e simmetrica lungo l'intero percorso della curva.</p>
                 <p>Partendo dalla forma base del binomio: \((a+b)^n\) e sostituendo con \(a=(1-t)\) e \(b=t\) si ottiene: \(((1-t)+t)^n\) che, sviluppato tramite i coefficienti del triangolo di Pascal, genera i polinomi utilizzati nelle curve di Bézier.</p>
 
                 <div class="gallery-container">
@@ -72,7 +81,7 @@
         </section>
 
         <section id="controllo" class="filetto curva-5">
-            <h4 class="titolo-sezione">Controllo</h4>
+            <h4 class="titolo-sezione">Controllo della curva di Bézier</h4>
             <div class="contenuto-sezione">
                 <p>Le curve di Bézier razionali evolvono i modelli tradizionali introducendo pesi associati ai punti di controllo, che regolano l'intensità con cui ogni punto attrae o allontana la curva. Questa caratteristica garantisce un'estrema flessibilità e precisione nella modellazione di forme complesse, mantenendo comunque la curva sempre all'interno dell'involucro convesso dei suoi punti. Infine, la visualizzazione in tempo reale di coordinate e pesi permette di comprendere l'esatto contributo matematico di ogni singolo elemento sul risultato finale.</p>
                 <img src="assets/img/controllo curva tradotta.png" alt="Interfaccia di controllo della curva" class="img-base img-controllo">
@@ -80,7 +89,7 @@
         </section>
 
         <section id="razionali" class="filetto curva-6">
-            <h4 class="titolo-sezione">Razionali</h4>
+            <h4 class="titolo-sezione">Curve di Bézier Razionali</h4>
             <div class="contenuto-sezione">
                 <p>Le curve di Bézier razionali sono un'estensione delle curve di Bézier standard, che introducono un ulteriore livello di controllo attraverso l'assegnazione di pesi specifici a ciascun punto di controllo. Questi pesi permettono di influenzare la forma della curva in modo più flessibile, consentendo di creare curvature più complesse. Sommando weight e ratio otteniamo "quanto fortemente" ciascuna coordinata influenza la curva. Rende le curve estremamente modificabili.</p>
                 <p><em>Controllo curve con variazione dei pesi dei punti di controllo, con visualizzazione in tempo reale della curva di Bézier razionale risultante:</em></p>
@@ -89,7 +98,7 @@
         </section>
 
         <section id="casteljau" class="filetto curva-1">
-            <h4 class="titolo-sezione">Casteljau</h4>
+            <h4 class="titolo-sezione">Algoritmo di De Casteljau</h4>
             <div class="contenuto-sezione">
                 <p>Paul de Casteljau è stato un fisico e matematico francese che nel 1959, mentre manteneva in incarico lavorativo per la Citroen, sviluppò un algoritmo per la valutazione di calcoli di specifiche curve. Venne in seguito formalizzato e reso popolare dall'ingegnere Pierre Bézier.</p>
                 <p>Se vogliamo disegnare una curva di Bézier possiamo scegliere di prendere ogni valore di t e calcolare ogni volta attraverso la funzione base le sei coordinate. Ciò però diventa sempre più complicato da calcolare in base a quanto più complessa la curva diventa.<br><br>Per facilitare il calcolo, si utilizzano algoritmi specifici come l'algoritmo di De Casteljau, un approccio geometrico per costruire la curva. Per farlo dobbiamo trattare t come un parametro che varia da 0 a 1 e sapere che il numero di curve equivale al numero di linee di costruzione. Poi dobbiamo segnare un punto su ognuna delle linee a distanza t e tracciare una linea che li colleghi. Bisognerà ripetere questi passaggi fino ad avere una singola linea in cui a distanza t si troveranno le coordinate del punto. Trovare le coordinate dei punti lungo la curva può servirci a semplificare il disegno della curva e a dividerla.</p>
@@ -98,7 +107,7 @@
         </section>
 
         <section id="suddivisione" class="filetto curva-2">
-            <h4 class="titolo-sezione">Suddivisione</h4>
+            <h4 class="titolo-sezione">Suddivisione della curva di Bézier</h4>
             <div class="contenuto-sezione">
                 <p>Utilizzando l'algoritmo di Casteljau possiamo dividere una curva di Bézier in due curve più semplici, ognuna con i propri punti di controllo. Per farlo dobbiamo scegliere un valore di t e applicare l'algoritmo per trovare le coordinate del punto corrispondente sulla curva. Poi, utilizzando i punti di controllo e il punto trovato, possiamo costruire due nuove curve di Bézier che insieme formano la curva originale. Ciò è utile per semplificare il disegno della curva e facilitare il calcolo della lunghezza approssimata.</p>
                 <iframe scrolling="no" frameborder="0" height="500" src="./assets/sketches/grafico_divisione_curve/"></iframe>
@@ -106,7 +115,7 @@
         </section>
 
         <section id="semplificazione" class="filetto curva-3">
-            <h4 class="titolo-sezione">Semplificazione</h4>
+            <h4 class="titolo-sezione">Semplificazione del disegno</h4>
             <div class="contenuto-sezione">
                 <p>Selezionando un certo numero di punti della curva e unendoli con delle linee dritte possiamo semplificare il disegno della curva, riducendola ad una semplice sequenza di segmenti lineari. Ciò rende meno pesante il calcolo in quanto non servirà calcolare un alto numero di coordinate ottenendo comunque una curva abbastanza credibile. Inoltre semplificare il disegno ci può aiutare anche a calcolare la lunghezza approssimata della curva. Però più la curva è complessa e più segmenti lineari serviranno per visualizzare le variazioni della curva, altrimenti rischiamo di ottenere una curva troppo semplificata che non riesce a rappresentare le variazioni di forma.</p>
                 <iframe scrolling="no" frameborder="0" height="500" src="./assets/sketches/grafico_semplificazione_disegno_1/"></iframe>
@@ -115,7 +124,7 @@
         </section>
 
         <section id="approssimazione" class="filetto curva-4">
-            <h4 class="titolo-sezione">Approssimazione</h4>
+            <h4 class="titolo-sezione">Calcolo della lunghezza approssimata</h4>
             <div class="contenuto-sezione">
                 <p>Il modo più semplice per calcolare la lunghezza di una curva di Bézier è quello di semplificare il disegno per poi calcolare la lunghezza dei segmenti lineari che la compongono. Ovviamente ciò non ci permetterà di trovare la lunghezza esatta della curva, bensì un stima approssimata. Il margine di errore può essere però visto ridotto aumentando il numero di segmenti lineari.</p>
                 <iframe scrolling="no" frameborder="0" height="500" src="./assets/sketches/grafico_calcolo_approssimato_1/"></iframe>
@@ -152,20 +161,20 @@
     </div>
 
     <nav class="indice-destra">
-        <div class="indice-titolo">Index</div>
+        <div class="indice-titolo">Indice dei contenuti</div>
         <ul class="index-list">
-            <li class="index-item"><a href="#introduzione">Introduzione</a><div class="index-dots"></div><span class="index-num">01</span></li>
-            <li class="index-item"><a href="#interpolazioni">Interpolazioni</a><div class="index-dots"></div><span class="index-num">02</span></li>
-            <li class="index-item"><a href="#parametria">Parametria</a><div class="index-dots"></div><span class="index-num">03</span></li>
-            <li class="index-item"><a href="#bernstein">Bernstein</a><div class="index-dots"></div><span class="index-num">04</span></li>
-            <li class="index-item"><a href="#controllo">Controllo</a><div class="index-dots"></div><span class="index-num">05</span></li>
-            <li class="index-item"><a href="#razionali">Razionali</a><div class="index-dots"></div><span class="index-num">06</span></li>
-            <li class="index-item"><a href="#casteljau">Casteljau</a><div class="index-dots"></div><span class="index-num">07</span></li>
-            <li class="index-item"><a href="#suddivisione">Suddivisione</a><div class="index-dots"></div><span class="index-num">08</span></li>
-            <li class="index-item"><a href="#semplificazione">Semplificazione</a><div class="index-dots"></div><span class="index-num">09</span></li>
-            <li class="index-item"><a href="#approssimazione">Approssimazione</a><div class="index-dots"></div><span class="index-num">10</span></li>
-            <li class="index-item"><a href="#colophon">Colophon</a><div class="index-dots"></div><span class="index-num">11</span></li>
-            <li class="index-item"><a href="#bibliografia">Bibliografia</a><div class="index-dots"></div><span class="index-num">12</span></li>
+            <li class="index-item"><a href="#introduzione">Introduzione</a></li>
+            <li class="index-item"><a href="#interpolazioni">Interpolazioni lineari</a></li>
+            <li class="index-item"><a href="#parametria">Funzioni Parametriche</a></li>
+            <li class="index-item"><a href="#bernstein">Polinomi di Bernstein</a></li>
+            <li class="index-item"><a href="#controllo">Controllo della curva di Bézier</a></li>
+            <li class="index-item"><a href="#razionali">Curve di Bézier Razionali</a></li>
+            <li class="index-item"><a href="#casteljau">Algoritmo di De Casteljau</a></li>
+            <li class="index-item"><a href="#suddivisione">Suddivisione della curva di Bézier</a></li>
+            <li class="index-item"><a href="#semplificazione">Semplificazione del disegno</a></li>
+            <li class="index-item"><a href="#approssimazione">Calcolo della lunghezza approssimata</a></li>
+            <li class="index-item"><a href="#colophon">Colophon</a></li>
+            <li class="index-item"><a href="#bibliografia">Bibliografia</a></li>
         </ul>
     </nav>
 

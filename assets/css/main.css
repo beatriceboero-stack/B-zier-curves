@@ -1,6 +1,6 @@
 /* ==========================================================================
-   1. Reset e Impostazioni Generali
-   ========================================================================== */
+1. Reset e Impostazioni Generali
+========================================================================== */
 *, *:before, *:after {
     box-sizing: border-box;
     margin: 0;
@@ -13,57 +13,53 @@ html {
 }
 
 body {
-    background-color: #ffffff; 
+    background-color: #ffffff;
     color: #000000;
     padding: 60px 4%;
     font-family: 'Inter', "Roboto", sans-serif;
     font-weight: 300;
     line-height: 1.4;
-    
     display: flex;
     gap: 5%;
     align-items: flex-start;
 }
 
 /* ==========================================================================
-   2. Struttura dei Contenitori Principali
-   ========================================================================== */
+2. Struttura dei Contenitori Principali
+========================================================================== */
 .contenitore-sinistra {
-    flex: 1; 
+    flex: 1;
     min-width: 0;
 }
 
-/* INDICE VERTICALE A DESTRA 
-   Configurato per ospitare il filetto a tutta altezza tramite pseudo-elemento */
+/* INDICE VERTICALE A DESTRA */
 .indice-destra {
-    flex: 0 0 220px; 
+    flex: 0 0 220px;
     position: sticky;
-    top: 60px; 
+    top: 60px;
     max-height: calc(100vh - 120px);
     overflow-y: auto;
-    padding-left: 30px; /* Spazio aumentato per non sovrapporsi alla curva */
-    position: relative; /* Necessario per il posizionamento del filetto */
+    padding-left: 30px; 
+    position: relative; 
 }
 
-/* MODIFICATO: Pseudo-elemento che genera la curva di Bézier verticale a tutta altezza */
 .indice-destra::before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
-    bottom: 0; /* Si estende imperativamente fino al fondo dell'altezza dell'indice */
-    width: 25px; /* Larghezza dell'area di flessione della curva */
-    
+    bottom: 0; 
+    width: 25px; 
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='25' height='100%25' viewBox='0 0 25 100' preserveAspectRatio='none'%3E%3Cpath d='M 1,0 C 24,30 -4,70 1,100' fill='none' stroke='%23000000' stroke-opacity='0.06' stroke-width='1.5'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center left;
-    background-size: 100% 100%; /* Forza l'SVG a tendersi coprendo l'intero spazio disponibile */
-    pointer-events: none; /* Evita di bloccare i clic sui link vicini */
+    background-size: 100% 100%; 
+    pointer-events: none; 
 }
 
 /* ==========================================================================
-   3. Elementi dell'Indice Interattivo
-   ========================================================================== */
+3. Elementi dell'Indice Interattivo
+========================================================================== */
 .indice-titolo {
     font-size: 11px;
     font-weight: 600;
@@ -98,7 +94,6 @@ body {
     color: #000000;
 }
 
-/* Punti di sospensione uniformati al grigio chiaro */
 .index-dots {
     flex: 1;
     border-bottom: 1.5px dotted #e2e2e2;
@@ -115,8 +110,8 @@ body {
 }
 
 /* ==========================================================================
-   4. Elementi di Testo e Macro-Sezioni
-   ========================================================================== */
+4. Elementi di Testo e Macro-Sezioni
+========================================================================== */
 .contenitore-sinistra a {
     color: #000000;
     text-decoration: none;
@@ -130,8 +125,8 @@ body {
 }
 
 p {
-    max-width: 44em;   
-    margin-bottom: 30px; 
+    max-width: 44em;
+    margin-bottom: 30px;
     text-align: left;
     font-size: 15px;
     font-weight: 300;
@@ -145,6 +140,10 @@ p em {
     letter-spacing: 0.02em;
     text-transform: uppercase;
     font-style: normal;
+}
+
+.no-uppercase {
+    text-transform: none !important;
 }
 
 h1 {
@@ -173,27 +172,29 @@ section {
     margin-bottom: 4rem;
 }
 
-/* Struttura per l'allineamento dei blocchi con filetto grafico */
+/* Struttura unificata su Curva 1 */
 .filetto {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='50' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath d='M 0,10 C 30,60 70,-10 100,40' fill='none' stroke='%23000000' stroke-opacity='0.06' stroke-width='1.8'/%3E%3C/svg%3E") !important;
+    background-size: 100% 50px;
     background-repeat: no-repeat;
     background-position: top center;
-    display: flex;               
+    display: flex;
     align-items: flex-start;
     gap: 2em;
-    padding-top: 70px; 
+    padding-top: 70px;
 }
 
 .titolo-sezione {
-    flex: 0 0 10em;             
+    flex: 0 0 10em;
     max-width: 10em;
-    word-wrap: break-word;      
+    word-wrap: break-word;
     white-space: normal;
 }
 
 .filetto .contenuto-sezione {
     position: relative;
     overflow: visible;
-    flex: 1;                    
+    flex: 1;
 }
 
 .contenuto-sezione ul {
@@ -209,75 +210,44 @@ section {
 }
 
 /* ==========================================================================
-   5. SET DI CURVE DI BÉZIER ORIZZONTALI (Spesse 1.8px/2.2px, Grigio al 6%)
-   ========================================================================== */
-
-/* Curva 1: Sinuosa a S (Cubic) */
-.curva-1 {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='50' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath d='M 0,10 C 30,60 70,-10 100,40' fill='none' stroke='%23000000' stroke-opacity='0.06' stroke-width='1.8'/%3E%3C/svg%3E");
-    background-size: 100% 50px;
-}
-
-/* Curva 2: Flessione profonda verso il basso (Quadratic) */
-.curva-2 {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='50' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath d='M 0,5 Q 50,45 100,5' fill='none' stroke='%23000000' stroke-opacity='0.06' stroke-width='2.2'/%3E%3C/svg%3E");
-    background-size: 100% 50px;
-}
-
-/* Curva 3: Arco teso verso l'alto */
-.curva-3 {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='50' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath d='M 0,45 Q 50,5 100,45' fill='none' stroke='%23000000' stroke-opacity='0.06' stroke-width='1.8'/%3E%3C/svg%3E");
-    background-size: 100% 50px;
-}
-
-/* Curva 4: Doppia asimmetria parametrica */
-.curva-4 {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='50' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath d='M 0,25 C 20,5 40,45 100,15' fill='none' stroke='%23000000' stroke-opacity='0.06' stroke-width='2.2'/%3E%3C/svg%3E");
-    background-size: 100% 50px;
-}
-
-/* Curva 5: Flessione asimmetrica finale */
-.curva-5 {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='50' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath d='M 0,10 Q 80,10 100,45' fill='none' stroke='%23000000' stroke-opacity='0.06' stroke-width='1.8'/%3E%3C/svg%3E");
-    background-size: 100% 50px;
-}
-
-/* Curva 6: Onda fluida ribassata */
-.curva-6 {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='50' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath d='M 0,35 C 40,5 60,45 100,5' fill='none' stroke='%23000000' stroke-opacity='0.06' stroke-width='2'/%3E%3C/svg%3E");
-    background-size: 100% 50px;
-}
+5. SET DI CURVE DI BÉZIER ORIZZONTALI (Mantenute per compatibilità di classi)
+========================================================================== */
+.curva-1 { background-size: 100% 50px; }
+.curva-2 { background-size: 100% 50px; }
+.curva-3 { background-size: 100% 50px; }
+.curva-4 { background-size: 100% 50px; }
+.curva-5 { background-size: 100% 50px; }
+.curva-6 { background-size: 100% 50px; }
 
 /* ==========================================================================
-   6. Configurazione Immagini e Iframe multimediali
-   ========================================================================== */
+6. Configurazione Immagini e Iframe multimediali
+========================================================================== */
 img.img-base {
     display: block;
     height: auto;
-    max-width: 100%; 
+    max-width: 100%;
     margin: 30px 0;
     border: 1px solid #eeeeee;
 }
 
 .img-polinomi { width: 300px; }
-.img-pascal    { width: 220px; }
-.img-bezier    { width: 300px; }
+.img-pascal { width: 220px; }
+.img-bezier { width: 300px; }
 .img-controllo { width: 450px; }
 
 .gallery-container {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    gap: 30px;                  
+    gap: 30px;
     width: 100%;
     margin: 35px 0;
 }
 
-/* Nel file main.css del SITO */
 iframe {
-    margin: 30px 0;       
+    margin: 30px 0;
     display: block;
-    border: none; /* <--- Cambia questo da "1px solid ..." a "none" */
+    border: none; 
     width: 100%;
     background: #ffffff;
 }
@@ -288,12 +258,12 @@ iframe {
 }
 
 /* ==========================================================================
-   7. Breakpoint: Mobile (Smartphone - Max 900px)
-   ========================================================================== */
+7. Breakpoint: Mobile (Smartphone - Max 900px)
+========================================================================== */
 @media only screen and (max-width: 900px) {
     body {
-        flex-direction: column-reverse; 
-        padding: 40px 6%;           
+        flex-direction: column-reverse;
+        padding: 40px 6%;
         gap: 2em;
     }
 
@@ -307,12 +277,10 @@ iframe {
         padding-top: 30px;
     }
 
-    /* Rimuove la curva verticale su mobile per evitare artefatti */
     .indice-destra::before {
         display: none;
     }
 
-    /* Sostituisce su mobile con un divisore orizzontale a curva prima dell'indice */
     .indice-destra {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='40' viewBox='0 0 100 40' preserveAspectRatio='none'%3E%3Cpath d='M 0,5 Q 50,35 100,5' fill='none' stroke='%23000000' stroke-opacity='0.06' stroke-width='1.5'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
@@ -335,12 +303,12 @@ iframe {
         max-width: none;
         margin-bottom: 15px;
     }
-    
+
     .gallery-container {
         flex-direction: column;
         gap: 20px;
     }
-    
+
     img.img-base,
     .img-polinomi, .img-pascal, .img-bezier, .img-controllo {
         width: 100% !important;

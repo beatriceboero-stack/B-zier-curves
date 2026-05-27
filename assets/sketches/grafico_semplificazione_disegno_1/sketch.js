@@ -1,6 +1,7 @@
 // ============================================
 // Bezier Curve Flattening
-// p5.js version
+// p5.js version — Stile e layout coordinati
+// Testi posizionati sotto al grafico
 // ============================================
 
 let points = [];
@@ -9,43 +10,67 @@ let selectedPoint = null;
 let stepsSlider;
 let curveType = "quadratic"; // "quadratic" oppure "cubic"
 
+let scaleFactor = 1;
+const GRAPHIC_HEIGHT = 250; // Altezza dedicata all'area di disegno della curva
+
 // ============================================
 // SETUP
 // ============================================
 
 function setup() {
-  createCanvas(500, 340);
+  let canvasWidth = windowWidth;
+  scaleFactor = canvasWidth / 1800;
+  if (scaleFactor < 0.5) scaleFactor = 0.5;
 
-  // Cambia qui:
-  // curveType = "quadratic";
-  // curveType = "cubic";
+  // Altezza calibrata a 380 per ospitare i testi sotto allo slider
+  createCanvas(canvasWidth, 380);
 
   if (curveType === "quadratic") {
     points = [
-      createVector(70, 250),
+      createVector(70, GRAPHIC_HEIGHT - 30),
       createVector(250, 40),
-      createVector(430, 250)
+      createVector(430, GRAPHIC_HEIGHT - 30)
     ];
   } else {
     points = [
-      createVector(70, 250),
+      createVector(70, GRAPHIC_HEIGHT - 30),
       createVector(40, 40),
       createVector(460, 40),
-      createVector(430, 250)
+      createVector(430, GRAPHIC_HEIGHT - 30)
     ];
   }
 
-  const maxSteps = curveType === "quadratic" ? 4 : 8;
+  // slider segmenti (Stile minimale coordinato)
+  stepsSlider = createSlider(1, 20, 8);
+  stepsSlider.position(10, GRAPHIC_HEIGHT + 15);
+  stepsSlider.style("width", "220px");
+  stepsSlider.style("-webkit-appearance", "none");
+  stepsSlider.style("appearance", "none");
+  stepsSlider.style("height", "2px"); 
+  stepsSlider.style("background", "#e2e2e2"); 
+  stepsSlider.style("outline", "none");
+  stepsSlider.style("accent-color", "#777777"); 
 
-// slider fino a 20 segmenti
-stepsSlider = createSlider(1, 20, 8);
+  textFont("Inter", "sans-serif");
+}
 
-stepsSlider.position(10, 300);
-stepsSlider.style("width", "220px");
-stepsSlider.style("accent-color", "black");
+// ============================================
+// TEXT SAFE (Funzione di stile coordinato)
+// ============================================
 
-  textFont("Roboto");
-  textSize(14);
+function drawTextSafe(str, x, y, size, isInstruction = false) {
+  push();
+  noStroke();
+  if (isInstruction) {
+    fill(153); // Grigio #999999 per indicazioni secondarie
+  } else {
+    fill(119); // Grigio #777777 per dati e stringhe principali
+  }
+  textStyle(NORMAL); 
+  textAlign(LEFT);   
+  textSize(size);
+  text(str, x, y);
+  pop();
 }
 
 // ============================================
@@ -56,23 +81,25 @@ function draw() {
   background(255);
 
   const steps = stepsSlider.value();
+  const labelSize = max(12, 13 * scaleFactor);
+
+  // Calcolo delle posizioni verticali del testo sotto allo slider
+  const mainTextY = GRAPHIC_HEIGHT + 55;
+  const hintTextY = GRAPHIC_HEIGHT + 77;
 
   // =========================================
   // Skeleton originale
   // =========================================
-
   drawSkeleton();
 
   // =========================================
   // Flattened polygon
   // =========================================
-
   noFill();
   stroke(0);
-  strokeWeight(2);
+  strokeWeight(1.5);
 
   beginShape();
-
   for (let i = 0; i <= steps; i++) {
     const t = i / steps;
 
@@ -83,23 +110,21 @@ function draw() {
 
     vertex(p.x, p.y);
   }
-
   endShape();
 
   // =========================================
   // Control points
   // =========================================
-
   drawControlPoints();
 
   // =========================================
-  // Label
+  // Label formatted (SPOSTATI SOTTO AL GRAFICO)
   // =========================================
+  let infoString = `Semplificato in ${steps} segmenti`;
+  drawTextSafe(infoString, 10, mainTextY, labelSize, false);
 
-  noStroke();
-  fill(0);
-
-  text(`Semplificato in ${steps} segmenti`, 10, 20);
+  let hintString = "Trascina i punti di controllo per modificare la forma della curva";
+  drawTextSafe(hintString, 10, hintTextY, labelSize - 1, true);
 }
 
 // ============================================
@@ -107,16 +132,14 @@ function draw() {
 // ============================================
 
 function drawSkeleton() {
-  stroke(180);
+  stroke(226); // Grigio chiaro #e2e2e2 coerente
   strokeWeight(1);
   noFill();
 
   beginShape();
-
   for (let p of points) {
     vertex(p.x, p.y);
   }
-
   endShape();
 }
 
@@ -191,7 +214,7 @@ function cubicPoint(t) {
 
 function mousePressed() {
   for (let p of points) {
-    if (dist(mouseX, mouseY, p.x, p.y) < 10) {
+    if (dist(mouseX, mouseY, p.x, p.y) < 12) {
       selectedPoint = p;
       break;
     }
@@ -200,11 +223,19 @@ function mousePressed() {
 
 function mouseDragged() {
   if (selectedPoint) {
-    selectedPoint.x = mouseX;
-    selectedPoint.y = mouseY;
+    selectedPoint.x = constrain(mouseX, 10, width - 10);
+    selectedPoint.y = constrain(mouseY, 10, GRAPHIC_HEIGHT - 10);
   }
 }
 
 function mouseReleased() {
   selectedPoint = null;
+}
+
+function windowResized() {
+  let canvasWidth = windowWidth;
+  scaleFactor = canvasWidth / 1800;
+  if (scaleFactor < 0.5) scaleFactor = 0.5;
+
+  resizeCanvas(canvasWidth, 380);
 }
