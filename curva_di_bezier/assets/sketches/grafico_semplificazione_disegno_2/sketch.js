@@ -41,8 +41,9 @@ function setup() {
 
   stepsSlider.position(10, 305);
   stepsSlider.style("width", "240px");
+  stepsSlider.style("accent-color", "black");
 
-  textFont("Arial");
+  textFont("Roboto");
   textSize(14);
 }
 
@@ -100,7 +101,7 @@ function draw() {
   noStroke();
   fill(0);
 
-  text(`Flattened to ${steps} segments`, 10, 20);
+  text(`Semplificato in ${steps} segmenti`, 10, 20);
 }
 
 // ============================================

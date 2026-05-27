@@ -30,10 +30,12 @@ function setup() {
   // sliders ratios
   for (let i = 0; i < 4; i++) {
     const s = createSlider(0.1, 5, 1, 0.01);
-    
-  
+
     s.position(500, 10 + i * 22);
     s.style("width", "180px");
+
+    // SLIDER NERO
+    s.style("accent-color", "#000");
 
     sliders.push(s);
   }
@@ -83,7 +85,7 @@ function draw() {
     text(
       `ratio-${i + 1}: ${ratios[i].toFixed(2)}`,
       690,
-      24 + i * 22
+      16 + i * 22
     );
   }
 }

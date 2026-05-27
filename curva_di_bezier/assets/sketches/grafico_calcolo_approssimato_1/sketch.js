@@ -1,53 +1,63 @@
 // ============================================
 // Bezier Curve Length Approximation
-// p5.js — replica fedele dell'originale
+// p5.js — versione con punti dinamici
+// Compatibile con p5.js / Visual Studio Code
+// Click per aggiungere punti
+// Drag per spostare i punti
+// Pulsante reset incluso
 // ============================================
 
 let points = [];
 let selectedPoint = null;
 
 let stepsSlider;
-
-// scegli:
-// "quadratic"
-// "cubic"
-const curveType = "cubic";
+let resetButton;
 
 // ============================================
 // SETUP
 // ============================================
 
 function setup() {
-  createCanvas(520, 340);
+  createCanvas(1800, 340);
 
-  // curva iniziale
-  if (curveType === "quadratic") {
-    points = [
-      createVector(70, 250),
-      createVector(250, 40),
-      createVector(430, 250)
-    ];
-  } else {
-    points = [
-      createVector(90, 250),
-      createVector(40, 70),
-      createVector(300, 40),
-      createVector(410, 240)
-    ];
-  }
+  resetPoints();
 
   // slider segmenti
-  stepsSlider = createSlider(
-    2,
-    20,
-    curveType === "quadratic" ? 4 : 8
-  );
+  stepsSlider = createSlider(2, 40, 12);
 
   stepsSlider.position(10, 305);
   stepsSlider.style("width", "240px");
+  stepsSlider.style("accent-color", "black");
 
-  textFont("Arial");
+  // pulsante reset
+  resetButton = createButton("Reset");
+
+  resetButton.position(270, 303);
+
+  resetButton.style("background", "black");
+  resetButton.style("color", "white");
+  resetButton.style("border", "none");
+  resetButton.style("padding", "6px 14px");
+  resetButton.style("cursor", "pointer");
+  resetButton.style("font-family", "Roboto");
+
+  resetButton.mousePressed(resetPoints);
+
+  textFont("Roboto");
   textSize(14);
+}
+
+// ============================================
+// RESET POINTS
+// ============================================
+
+function resetPoints() {
+  // SOLO 3 punti iniziali
+  points = [
+    createVector(90, 250),
+    createVector(220, 40),
+    createVector(410, 240)
+  ];
 }
 
 // ============================================
@@ -74,12 +84,7 @@ function draw() {
   for (let i = 0; i <= steps; i++) {
     const t = i / steps;
 
-    const p =
-      curveType === "quadratic"
-        ? getQuadraticPoint(t)
-        : getCubicPoint(t);
-
-    LUT.push(p);
+    LUT.push(getBezierPoint(points, t));
   }
 
   // =========================================
@@ -92,7 +97,7 @@ function draw() {
   // polygon approximation
   // =========================================
 
-  stroke("red");
+  stroke("black");
   strokeWeight(2);
   noFill();
 
@@ -126,9 +131,15 @@ function draw() {
   fill(0);
 
   text(
-    `Approximate length, ${steps} steps: ${approxLength.toFixed(2)} (true: ${trueLength.toFixed(2)})`,
+    `Punti: ${points.length} | Segmenti: ${steps} | Lunghezza approssimata: ${approxLength.toFixed(2)} | Lunghezza reale: ${trueLength.toFixed(2)}`,
     10,
     20
+  );
+
+  text(
+    "Click vuoto = aggiungi punto",
+    10,
+    42
   );
 }
 
@@ -137,7 +148,7 @@ function draw() {
 // ============================================
 
 function drawSkeleton() {
-  stroke(173, 216, 230);
+  stroke(180);
   strokeWeight(1);
   noFill();
 
@@ -165,54 +176,26 @@ function drawControlPoints() {
 }
 
 // ============================================
-// QUADRATIC POINT
+// GENERIC BEZIER POINT
+// de Casteljau algorithm
 // ============================================
 
-function getQuadraticPoint(t) {
-  const p0 = points[0];
-  const p1 = points[1];
-  const p2 = points[2];
+function getBezierPoint(ctrlPoints, t) {
+  let temp = ctrlPoints.map(p => p.copy());
 
-  const mt = 1 - t;
+  while (temp.length > 1) {
+    let next = [];
 
-  const x =
-    mt * mt * p0.x +
-    2 * mt * t * p1.x +
-    t * t * p2.x;
+    for (let i = 0; i < temp.length - 1; i++) {
+      next.push(
+        p5.Vector.lerp(temp[i], temp[i + 1], t)
+      );
+    }
 
-  const y =
-    mt * mt * p0.y +
-    2 * mt * t * p1.y +
-    t * t * p2.y;
+    temp = next;
+  }
 
-  return createVector(x, y);
-}
-
-// ============================================
-// CUBIC POINT
-// ============================================
-
-function getCubicPoint(t) {
-  const p0 = points[0];
-  const p1 = points[1];
-  const p2 = points[2];
-  const p3 = points[3];
-
-  const mt = 1 - t;
-
-  const x =
-    mt * mt * mt * p0.x +
-    3 * mt * mt * t * p1.x +
-    3 * mt * t * t * p2.x +
-    t * t * t * p3.x;
-
-  const y =
-    mt * mt * mt * p0.y +
-    3 * mt * mt * t * p1.y +
-    3 * mt * t * t * p2.y +
-    t * t * t * p3.y;
-
-  return createVector(x, y);
+  return temp[0];
 }
 
 // ============================================
@@ -222,20 +205,14 @@ function getCubicPoint(t) {
 function approximateTrueLength() {
   let total = 0;
 
-  let prev =
-    curveType === "quadratic"
-      ? getQuadraticPoint(0)
-      : getCubicPoint(0);
+  let prev = getBezierPoint(points, 0);
 
-  const resolution = 300;
+  const resolution = 500;
 
   for (let i = 1; i <= resolution; i++) {
     const t = i / resolution;
 
-    const p =
-      curveType === "quadratic"
-        ? getQuadraticPoint(t)
-        : getCubicPoint(t);
+    const p = getBezierPoint(points, t);
 
     total += dist(
       prev.x,
@@ -251,15 +228,23 @@ function approximateTrueLength() {
 }
 
 // ============================================
-// DRAGGING
+// DRAGGING + ADD POINTS
 // ============================================
 
 function mousePressed() {
+  selectedPoint = null;
+
+  // controllo selezione
   for (let p of points) {
     if (dist(mouseX, mouseY, p.x, p.y) < 10) {
       selectedPoint = p;
-      break;
+      return;
     }
+  }
+
+  // aggiungi nuovo punto
+  if (mouseY < 290) {
+    points.push(createVector(mouseX, mouseY));
   }
 }
 

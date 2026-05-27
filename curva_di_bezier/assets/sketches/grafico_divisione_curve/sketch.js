@@ -22,10 +22,13 @@ function setup() {
   ];
 
   tSlider = createSlider(0, 100, 50);
-  tSlider.position(10, panelH + 15);
+  tSlider.position(10, panelH);
   tSlider.style("width", "240px");
 
-  textFont("Arial");
+  // SLIDER NERO
+  tSlider.style("accent-color", "black");
+
+  textFont("Roboto");
   textSize(14);
 }
 
@@ -78,7 +81,7 @@ function draw() {
   push();
   translate(panelW, 0);
 
-  drawSplitPanel(points, leftCurve, p, "The first half");
+  drawSplitPanel(points, leftCurve, p, "Prima metà");
 
   pop();
 
@@ -93,7 +96,7 @@ function draw() {
   push();
   translate(panelW * 2, 0);
 
-  drawSplitPanel(points, rightCurve, p, "The second half");
+  drawSplitPanel(points, rightCurve, p, "Seconda metà");
 
   pop();
 }
@@ -123,7 +126,7 @@ function drawMainPanel(basePoints, levels, p) {
 
   noStroke();
   fill(0);
-  text("The full curve, with struts", 10, 20);
+  text("Curva completa", 10, 20);
 }
 
 // =====================================================

@@ -31,8 +31,11 @@ function setup() {
 
   // slider
   stepSlider = createSlider(5, 50, 25, 5);
-  stepSlider.position(10, 320);
+  stepSlider.position(10, 300);
   stepSlider.style("width", "220px");
+
+  // SLIDER NERO
+  stepSlider.style("accent-color", "black");
 
   // FONT FIX
   textFont("Roboto");

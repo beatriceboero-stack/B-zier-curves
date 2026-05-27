@@ -23,7 +23,9 @@ function setup() {
   tSlider.position(10, 285);
   tSlider.style("width", "220px");
 
-  textFont("Arial");
+  tSlider.style("accent-color", "black");
+
+  textFont("Roboto");
   textSize(14);
 }
 
@@ -61,7 +63,7 @@ function draw() {
 
     fill(0);
     text(
-      `Sequential interpolation for ${floor(t * 100)}% (t=${t.toFixed(2)})`,
+      `Interpolazione ${floor(t * 100)}% (t=${t.toFixed(2)})`,
       10,
       20
     );
