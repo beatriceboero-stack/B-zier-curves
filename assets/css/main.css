@@ -70,9 +70,6 @@ section {
 	margin-right: 1em;
 }
 
-.contenitore {
-	/* max-width: 54em; */
-}
 
 ul {
 	margin: 0;
@@ -93,6 +90,11 @@ ul {
 	width: auto !important;        /* Rimuove blocchi precedenti e usa la larghezza reale dell'SVG */
 	height: auto !important;       /* Mantiene l'altezza reale dell'SVG */
 	max-width: 100%;               /* Sicurezza per non farle mai uscire dal contenitore */
+}
+
+.grafico-bezier {
+  width: 40px;
+  height: auto;
 }
 
 /* -- breakpoint: schermi piccoli, larghezza massima 600 pixel -- */
