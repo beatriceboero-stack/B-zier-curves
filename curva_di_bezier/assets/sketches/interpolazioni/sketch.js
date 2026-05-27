@@ -3,24 +3,37 @@ let selected = -1;
 let slider;
 
 const panelW = 400;
+<<<<<<< Updated upstream
 const panelH = 450; 
+=======
+const panelH = 450; // Ridotta l'altezza dei pannelli per fare spazio in alto e in basso
+>>>>>>> Stashed changes
 
 function setup(){
   // Crea e aggancia il canvas al suo contenitore specifico
   let canvas = createCanvas(1200, 560);
   canvas.parent("canvas-container");
+<<<<<<< Updated upstream
   
   // Rende lo sfondo del canvas HTML trasparente
   canvas.style('background-color', 'transparent');
 
   // Inizializzazione punti di controllo
+=======
+
+  // Inizializzazione punti di controllo spostati leggermente più in alto
+>>>>>>> Stashed changes
   points = [
     createVector(80, 320),
     createVector(200, 60),
     createVector(320, 320)
   ];
 
+<<<<<<< Updated upstream
   // Crea lo slider nel suo contenitore HTML
+=======
+  // Crea lo slider e lo posiziona nel contenitore HTML in cima ai grafici
+>>>>>>> Stashed changes
   slider = createSlider(5, 50, 25, 5);
   slider.parent("slider-container");
 
@@ -29,8 +42,12 @@ function setup(){
 }
 
 function draw(){
+<<<<<<< Updated upstream
   // Pulisce il frame precedente mantenendo la totale trasparenza
   clear(); 
+=======
+  background(255);
+>>>>>>> Stashed changes
 
   let step = slider.value();
 
@@ -39,7 +56,11 @@ function draw(){
     drawPanel(p, step);
   }
 
+<<<<<<< Updated upstream
   // Scritta con percentuale dinamica sul fondo
+=======
+  // Scritta con percentuale dinamica posizionata sul fondo del canvas
+>>>>>>> Stashed changes
   noStroke();
   fill("#5E3A87");
   textAlign(CENTER);
@@ -59,7 +80,11 @@ function drawPanel(panel, step){
     line(offsetX, 0, offsetX, panelH);
   }
 
+<<<<<<< Updated upstream
   // Titoli sul fondo
+=======
+  // Titoli spostati sul fondo (Y = 480) per non sovrapporsi alle linee superiori
+>>>>>>> Stashed changes
   noStroke();
   fill("#4B2E83");
   textAlign(CENTER);
@@ -95,18 +120,30 @@ function drawPanel(panel, step){
     fill(c);
     stroke(c);
 
+<<<<<<< Updated upstream
     // Pannello 1
+=======
+    // Pannello 1: Punti sulle linee di controllo con etichette SOTTO i cerchi
+>>>>>>> Stashed changes
     if(panel === 0){
       circle(offsetX + p1.x, p1.y, 10);
       circle(offsetX + p2.x, p2.y, 10);
       noStroke();
       fill("#5E3A87");
       textAlign(CENTER);
+<<<<<<< Updated upstream
       text(i + "%", offsetX + p1.x, p1.y + 22);
       text(i + "%", offsetX + p2.x, p2.y + 22);
     }
 
     // Pannello 2
+=======
+      text(i + "%", offsetX + p1.x, p1.y + 22); // Spostato sotto (y + 22)
+      text(i + "%", offsetX + p2.x, p2.y + 22); // Spostato sotto (y + 22)
+    }
+
+    // Pannello 2: Segmenti interni intermedi con etichette SOTTO il punto centrale
+>>>>>>> Stashed changes
     if(panel === 1){
       stroke(c);
       line(offsetX + p1.x, p1.y, offsetX + p2.x, p2.y);
@@ -117,17 +154,28 @@ function drawPanel(panel, step){
       noStroke();
       fill("#5E3A87");
       textAlign(CENTER);
+<<<<<<< Updated upstream
       text(i + "%", offsetX + p.x, p.y + 18);
     }
 
     // Pannello 3
+=======
+      text(i + "%", offsetX + p.x, p.y + 18); // Spostato sotto (y + 18)
+    }
+
+    // Pannello 3: Valori parametrici t stampati SOTTO i rispettivi punti
+>>>>>>> Stashed changes
     if(panel === 2){
       noStroke();
       fill(c);
       circle(offsetX + p.x, p.y, 5);
       fill("#5E3A87");
       textAlign(CENTER);
+<<<<<<< Updated upstream
       text("t=" + nf(t, 1, 2), offsetX + p.x, p.y + 18);
+=======
+      text("t=" + nf(t, 1, 2), offsetX + p.x, p.y + 18); // Spostato sotto (y + 18)
+>>>>>>> Stashed changes
     }
   }
 
@@ -142,7 +190,11 @@ function drawPanel(panel, step){
 
   text(testo, offsetX + panelW / 2, 510);
 
+<<<<<<< Updated upstream
   // Disegno e coordinate dei Punti di Controllo
+=======
+  // Disegno e coordinate dei Punti di Controllo trascinabili (Testo SOTTO il cerchio)
+>>>>>>> Stashed changes
   fill("#2E003E");
   stroke("#2E003E");
   for(let pt of points){
@@ -153,7 +205,11 @@ function drawPanel(panel, step){
     text(
       "(" + floor(pt.x) + "," + floor(pt.y) + ")",
       offsetX + pt.x,
+<<<<<<< Updated upstream
       pt.y + 24
+=======
+      pt.y + 24 // Spostato stabilmente sotto la coordinata del cerchio
+>>>>>>> Stashed changes
     );
   }
 }
@@ -180,7 +236,11 @@ function mouseDragged(){
   if(selected !== -1){
     let localX = mouseX % panelW;
     points[selected].x = constrain(localX, 20, panelW - 20);
+<<<<<<< Updated upstream
     points[selected].y = constrain(mouseY, 40, panelH - 40);
+=======
+    points[selected].y = constrain(mouseY, 40, panelH - 40); // Vincolato dentro l'altezza del pannello ridotto
+>>>>>>> Stashed changes
   }
 }
 
