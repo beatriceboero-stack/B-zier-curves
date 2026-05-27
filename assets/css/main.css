@@ -29,9 +29,12 @@ a:hover{
 
 p {
   width: 100%;       /* Occupa tutto lo spazio disponibile */
-  max-width: 100%;   /* Impedisce al testo di uscire dai bordi */
+  max-width: 60em;   /* Impedisce al testo di uscire dai bordi */
   box-sizing: border-box; /* Include padding e bordi nel calcolo della larghezza */
+  justify-content: left ;
+
 }
+
 
 h1 {
 	margin: 0;
