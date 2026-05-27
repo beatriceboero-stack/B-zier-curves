@@ -14,7 +14,7 @@ let curveType = "quadratic"; // "quadratic" oppure "cubic"
 // ============================================
 
 function setup() {
-  createCanvas(500, 340);
+  createCanvas(1800, 520);
 
   // Cambia qui:
   // curveType = "quadratic";
@@ -43,7 +43,7 @@ stepsSlider = createSlider(1, 20, 8);
 stepsSlider.position(10, 300);
 stepsSlider.style("width", "220px");
 
-  textFont("Arial");
+  textFont("roboto");
   textSize(14);
 }
 
@@ -98,7 +98,7 @@ function draw() {
   noStroke();
   fill(0);
 
-  text(`Flattened to ${steps} segments`, 10, 20);
+  text(`Semplificato in ${steps} segmenti`, 10, 20);
 }
 
 // ============================================

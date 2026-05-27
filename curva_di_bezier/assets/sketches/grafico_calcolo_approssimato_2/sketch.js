@@ -17,7 +17,7 @@ const curveType = "cubic";
 // ======================================================
 
 function setup() {
-  createCanvas(500, 340);
+  createCanvas(1800, 520);
 
   if (curveType === "quadratic") {
     points = [
@@ -44,7 +44,7 @@ function setup() {
   stepsSlider.position(10, 305);
   stepsSlider.style("width", "240px");
 
-  textFont("Arial");
+  textFont("roboto");
   textSize(14);
 }
 
@@ -77,7 +77,7 @@ function draw() {
   // skeleton azzurro chiaro
   // ==================================================
 
-  stroke(173, 216, 230);
+  stroke(180);
   strokeWeight(1);
   noFill();
 
@@ -93,7 +93,7 @@ function draw() {
   // approssimazione rossa
   // ==================================================
 
-  stroke("red");
+  stroke("black");
   strokeWeight(2);
   noFill();
 
@@ -133,7 +133,7 @@ function draw() {
   fill(0);
 
   text(
-    `Approximate length, ${steps} steps: ${approxLength.toFixed(2)} (true: ${trueLength.toFixed(2)})`,
+    `Lunghezza approssimata, ${steps} segmenti: ${approxLength.toFixed(2)} (lunghezza reale: ${trueLength.toFixed(2)})`,
     10,
     20
   );

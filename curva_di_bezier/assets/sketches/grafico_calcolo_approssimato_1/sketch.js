@@ -1,7 +1,4 @@
-// ============================================
-// Bezier Curve Length Approximation
-// p5.js — replica fedele dell'originale
-// ============================================
+
 
 let points = [];
 let selectedPoint = null;
@@ -18,7 +15,7 @@ const curveType = "cubic";
 // ============================================
 
 function setup() {
-  createCanvas(520, 340);
+  createCanvas(1800, 340);
 
   // curva iniziale
   if (curveType === "quadratic") {
@@ -43,10 +40,11 @@ function setup() {
     curveType === "quadratic" ? 4 : 8
   );
 
-  stepsSlider.position(10, 305);
+  stepsSlider.position(10, 300); 
   stepsSlider.style("width", "240px");
+  
 
-  textFont("Arial");
+  textFont("roboto");
   textSize(14);
 }
 
@@ -92,7 +90,7 @@ function draw() {
   // polygon approximation
   // =========================================
 
-  stroke("red");
+  stroke("black");
   strokeWeight(2);
   noFill();
 
@@ -126,7 +124,7 @@ function draw() {
   fill(0);
 
   text(
-    `Approximate length, ${steps} steps: ${approxLength.toFixed(2)} (true: ${trueLength.toFixed(2)})`,
+    `Lunghezza approssimata, ${steps} segmenti: ${approxLength.toFixed(2)} (lunghezza reale: ${trueLength.toFixed(2)})`,
     10,
     20
   );
@@ -137,7 +135,7 @@ function draw() {
 // ============================================
 
 function drawSkeleton() {
-  stroke(173, 216, 230);
+  stroke(180);
   strokeWeight(1);
   noFill();
 

@@ -1,14 +1,11 @@
-// ==========================================
-// Bezier Curve + de Casteljau Visualization
-// p5.js
-// ==========================================
+
 
 let points = [];
 let selectedPoint = null;
 let tSlider;
 
 function setup() {
-  createCanvas(500, 320);
+  createCanvas(1800, 340);
 
   // punti originali
   points = [
@@ -20,10 +17,10 @@ function setup() {
 
   // slider t
   tSlider = createSlider(0, 100, 0);
-  tSlider.position(10, 285);
+  tSlider.position(10, 300);
   tSlider.style("width", "220px");
 
-  textFont("Arial");
+  textFont("roboto");
   textSize(14);
 }
 
@@ -61,7 +58,7 @@ function draw() {
 
     fill(0);
     text(
-      `Sequential interpolation for ${floor(t * 100)}% (t=${t.toFixed(2)})`,
+      `Interpolazione ${floor(t * 100)}% (t=${t.toFixed(2)})`,
       10,
       20
     );

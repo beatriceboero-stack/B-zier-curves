@@ -18,7 +18,7 @@ const curveType = "cubic";
 // ============================================
 
 function setup() {
-  createCanvas(500, 340);
+  createCanvas(1800, 340);
 
   // curva originale
   if (curveType === "quadratic") {
@@ -42,7 +42,7 @@ function setup() {
   stepsSlider.position(10, 305);
   stepsSlider.style("width", "240px");
 
-  textFont("Arial");
+  textFont("roboto");
   textSize(14);
 }
 
@@ -100,7 +100,7 @@ function draw() {
   noStroke();
   fill(0);
 
-  text(`Flattened to ${steps} segments`, 10, 20);
+  text(`Semplificato in ${steps} segmenti`, 10, 20);
 }
 
 // ============================================
