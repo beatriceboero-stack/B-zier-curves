@@ -14,21 +14,27 @@ let ratios = [1, 1, 1, 1];
 let sliders = [];
 
 let scaleFactor = 1;
-const GRAPHIC_HEIGHT = 250; // Altezza dedicata all'area di disegno della curva
+
+const GRAPHIC_HEIGHT = 250;
 
 // =====================================================
 // SETUP
 // =====================================================
 
 function setup() {
-  let canvasWidth = windowWidth;
-  scaleFactor = canvasWidth / 1800;
-  if (scaleFactor < 0.5) scaleFactor = 0.5;
 
-  // Altezza impostata a 390 per contenere comodamente i blocchi di controllo sotto al grafico
+  let canvasWidth = windowWidth;
+
+  scaleFactor = canvasWidth / 1800;
+
+  if (scaleFactor < 0.5) {
+    scaleFactor = 0.5;
+  }
+
+  // canvas
   createCanvas(canvasWidth, 390);
 
-  // curva cubic standard allineata all'area utile del grafico
+  // curva cubic standard
   points = [
     createVector(70, GRAPHIC_HEIGHT - 30),
     createVector(80, 40),
@@ -36,42 +42,56 @@ function setup() {
     createVector(420, GRAPHIC_HEIGHT - 30)
   ];
 
-  // Configurazione degli sliders (Posizionati orizzontalmente sotto al grafico)
+  // sliders
   for (let i = 0; i < 4; i++) {
+
     const s = createSlider(0.1, 5, 1, 0.01);
 
-    // Distribuzione orizzontale distanziata sotto il grafico
     s.position(10 + i * 220, GRAPHIC_HEIGHT + 15);
+
     s.style("width", "140px");
     s.style("-webkit-appearance", "none");
     s.style("appearance", "none");
-    s.style("height", "2px"); 
-    s.style("background", "#e2e2e2"); 
+    s.style("height", "2px");
+    s.style("background", "#e2e2e2");
     s.style("outline", "none");
-    s.style("accent-color", "#777777"); 
+    s.style("accent-color", "#777777");
 
     sliders.push(s);
   }
 
-  textFont("Inter", "sans-serif");
+  // font
+  textFont("Inter");
 }
 
-// ============================================
-// TEXT SAFE (Funzione di stile coordinato)
-// ============================================
+// =====================================================
+// TEXT SAFE
+// =====================================================
 
 function drawTextSafe(str, x, y, size, isInstruction = false) {
+
   push();
+
   noStroke();
+
   if (isInstruction) {
-    fill(153); // Grigio #999999 per indicazioni secondarie
+    fill(153);
   } else {
-    fill(119); // Grigio #777777 per dati e stringhe principali
+    fill(119);
   }
-  textStyle(NORMAL); 
-  textAlign(LEFT);   
+
+  // FIX testo normale
+  textStyle(NORMAL);
+
+  textFont("Inter");
+  textAlign(LEFT);
+
   textSize(size);
+
+  textLeading(size * 1.2);
+
   text(str, x, y);
+
   pop();
 }
 
@@ -80,38 +100,32 @@ function drawTextSafe(str, x, y, size, isInstruction = false) {
 // =====================================================
 
 function draw() {
+
   background(255);
 
   const labelSize = max(12, 13 * scaleFactor);
-  
-  // Calcolo delle posizioni verticali del testo sotto agli slider
+
+  // posizioni testo
   const mainTextY = GRAPHIC_HEIGHT + 55;
   const hintTextY = GRAPHIC_HEIGHT + 77;
 
-  // aggiorna ratios dallo slider
+  // aggiorna ratios
   for (let i = 0; i < 4; i++) {
     ratios[i] = sliders[i].value();
   }
 
-  // =========================================
   // skeleton
-  // =========================================
   drawSkeleton();
 
-  // =========================================
   // curva razionale
-  // =========================================
   drawRationalBezier();
 
-  // =========================================
-  // control points
-  // =========================================
+  // punti controllo
   drawPoints();
 
-  // =========================================
-  // labels sliders (SPOSTATI SOTTO AD OGNI SLIDER)
-  // =========================================
+  // labels sliders
   for (let i = 0; i < 4; i++) {
+
     drawTextSafe(
       `ratio-${i + 1}: ${ratios[i].toFixed(2)}`,
       10 + i * 220,
@@ -121,8 +135,17 @@ function draw() {
     );
   }
 
-  let hintString = "Trascina i punti di controllo o modifica i pesi (ratio) per deformare la curva di Bézier razionale";
-  drawTextSafe(hintString, 10, hintTextY, labelSize - 1, true);
+  // hint
+  let hintString =
+    "Trascina i punti di controllo o modifica i pesi (ratio) per deformare la curva di Bézier razionale";
+
+  drawTextSafe(
+    hintString,
+    10,
+    hintTextY,
+    labelSize - 1,
+    true
+  );
 }
 
 // =====================================================
@@ -130,14 +153,19 @@ function draw() {
 // =====================================================
 
 function drawSkeleton() {
-  stroke(226); // Grigio chiaro #e2e2e2 coerente
+
+  stroke(226);
+
   strokeWeight(1);
+
   noFill();
 
   beginShape();
+
   for (let p of points) {
     vertex(p.x, p.y);
   }
+
   endShape();
 }
 
@@ -146,15 +174,22 @@ function drawSkeleton() {
 // =====================================================
 
 function drawRationalBezier() {
+
   stroke(0);
+
   strokeWeight(1.5);
+
   noFill();
 
   beginShape();
+
   for (let t = 0; t <= 1.001; t += 0.01) {
+
     const p = getRationalPoint(t);
+
     vertex(p.x, p.y);
   }
+
   endShape();
 }
 
@@ -163,6 +198,7 @@ function drawRationalBezier() {
 // =====================================================
 
 function getRationalPoint(t) {
+
   const mt = 1 - t;
 
   // Bernstein basis cubic
@@ -181,8 +217,21 @@ function getRationalPoint(t) {
   const denom = wb0 + wb1 + wb2 + wb3;
 
   // rational coordinates
-  const x = (wb0 * points[0].x + wb1 * points[1].x + wb2 * points[2].x + wb3 * points[3].x) / denom;
-  const y = (wb0 * points[0].y + wb1 * points[1].y + wb2 * points[2].y + wb3 * points[3].y) / denom;
+  const x =
+    (
+      wb0 * points[0].x +
+      wb1 * points[1].x +
+      wb2 * points[2].x +
+      wb3 * points[3].x
+    ) / denom;
+
+  const y =
+    (
+      wb0 * points[0].y +
+      wb1 * points[1].y +
+      wb2 * points[2].y +
+      wb3 * points[3].y
+    ) / denom;
 
   return createVector(x, y);
 }
@@ -192,8 +241,11 @@ function getRationalPoint(t) {
 // =====================================================
 
 function drawPoints() {
+
   stroke(0);
+
   strokeWeight(1.5);
+
   fill(255);
 
   for (let p of points) {
@@ -206,32 +258,51 @@ function drawPoints() {
 // =====================================================
 
 function mousePressed() {
-  // Evita l'interazione con i punti se si clicca sotto l'area del grafico
+
+  // evita interazione sotto il grafico
   if (mouseY > GRAPHIC_HEIGHT - 10) return;
 
   for (let p of points) {
+
     if (dist(mouseX, mouseY, p.x, p.y) < 12) {
+
       selectedPoint = p;
+
       break;
     }
   }
 }
 
 function mouseDragged() {
+
   if (selectedPoint) {
-    selectedPoint.x = constrain(mouseX, 10, width - 10);
-    selectedPoint.y = constrain(mouseY, 10, GRAPHIC_HEIGHT - 10);
+
+    selectedPoint.x =
+      constrain(mouseX, 10, width - 10);
+
+    selectedPoint.y =
+      constrain(mouseY, 10, GRAPHIC_HEIGHT - 10);
   }
 }
 
 function mouseReleased() {
+
   selectedPoint = null;
 }
 
+// =====================================================
+// RESIZE
+// =====================================================
+
 function windowResized() {
+
   let canvasWidth = windowWidth;
+
   scaleFactor = canvasWidth / 1800;
-  if (scaleFactor < 0.5) scaleFactor = 0.5;
+
+  if (scaleFactor < 0.5) {
+    scaleFactor = 0.5;
+  }
 
   resizeCanvas(canvasWidth, 390);
 }
