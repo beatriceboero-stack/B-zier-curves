@@ -1,7 +1,6 @@
 // ======================================================
 // Quadratic Bezier Interpolation Visualization
-// p5.js — replica fedele dell'originale
-// VERSIONE CON PANNELLI PIÙ SPAZIATI
+// p5.js — Slider Spostato in Basso e Layout Ottimizzato
 // ======================================================
 
 let points = [];
@@ -9,47 +8,81 @@ let selectedPoint = null;
 
 let stepSlider;
 
-const PANELS = 3;
+const BASE_PANEL_W = 600;
+const BASE_PANEL_H = 450;
 
-// SPAZIATURA AUMENTATA
-const PANEL_W = 380;
-const PANEL_H = 320;
+let scaleFactor = 1;
+let currentPanelW = 600;
+let currentPanelH = 450;
+
+// COORDINATE STRUTTURALI DEL TRIANGOLO
+let relativePoints = [
+  { x: 160 / BASE_PANEL_W, y: 310 / BASE_PANEL_H }, 
+  { x: 300 / BASE_PANEL_W, y: 40 / BASE_PANEL_H },  
+  { x: 440 / BASE_PANEL_W, y: 310 / BASE_PANEL_H }  
+];
+
+let paddingLeft = 0; 
 
 // ======================================================
 // SETUP
 // ======================================================
 
 function setup() {
-  createCanvas(PANEL_W * PANELS, PANEL_H + 60);
+  let canvasWidth = windowWidth;
+  
+  scaleFactor = canvasWidth / 1800;
+  if (scaleFactor < 0.5) scaleFactor = 0.5; 
 
-  // quadratic bezier
-  points = [
-    createVector(60, 250),
-    createVector(160, 40),
-    createVector(260, 250)
-  ];
+  // Aumentata l'altezza del canvas da 560 a 590 per dare più aria sul fondo
+  let canvasHeight = 590 * scaleFactor;
+  createCanvas(canvasWidth, canvasHeight);
 
-  // slider
+  currentPanelW = canvasWidth / 3;
+  currentPanelH = canvasHeight - (150 * scaleFactor); // Spazio calibrato per i testi e lo slider sotto
+
+  initPoints();
+
+  // Slider spostato ancora più in basso (da -30 a -20 dal fondo reale del canvas)
   stepSlider = createSlider(5, 50, 25, 5);
-  stepSlider.position(10, 300);
-  stepSlider.style("width", "220px");
+  stepSlider.position(0, canvasHeight - (20 * scaleFactor));
+  
+  // Stile minimale coerente
+  stepSlider.style("width", (180 * scaleFactor) + "px");
+  stepSlider.style("-webkit-appearance", "none");
+  stepSlider.style("appearance", "none");
+  stepSlider.style("height", "2px"); 
+  stepSlider.style("background", "#e2e2e2"); 
+  stepSlider.style("outline", "none");
+  stepSlider.style("accent-color", "#777777"); 
+  
+  textFont("Inter", "sans-serif");
+}
 
-  // SLIDER NERO
-  stepSlider.style("accent-color", "black");
-
-  // FONT FIX
-  textFont("Roboto");
-  textSize(14);
+function initPoints() {
+  points = [];
+  for (let rp of relativePoints) {
+    points.push(createVector(rp.x * currentPanelW, rp.y * currentPanelH));
+  }
 }
 
 // ======================================================
-// TEXT SAFE
+// TEXT SAFE 
 // ======================================================
 
-function drawTextSafe(str, x, y) {
+function drawTextSafe(str, x, y, size, isTitle = false) {
   push();
   noStroke();
-  fill(0);
+  if (isTitle) {
+    fill(119); // Grigio #777777 del sito
+    textStyle(NORMAL); 
+    textAlign(CENTER); 
+  } else {
+    fill(153); // Grigio #999999 per etichette t e %
+    textStyle(NORMAL);
+    textAlign(LEFT);   
+  }
+  textSize(size);
   text(str, x, y);
   pop();
 }
@@ -59,49 +92,32 @@ function drawTextSafe(str, x, y) {
 // ======================================================
 
 function draw() {
-  background(255);
+  background(255); 
 
   const step = stepSlider.value();
 
-  // ==================================================
-  // PANEL 1
-  // ==================================================
+  const titleSize = max(13, 15 * scaleFactor);
+  const labelSize = max(10, 12 * scaleFactor);
+  
+  // Posizione verticale dei titoli (perfettamente calcolata sotto i grafici)
+  const titleY = currentPanelH + (55 * scaleFactor);
 
+  // PANEL 1
   push();
   translate(0, 0);
-
-  drawFirstPanel(step);
-
+  drawFirstPanel(step, titleSize, labelSize, titleY);
   pop();
 
-  // divider
-  stroke(0);
-  line(PANEL_W, 0, PANEL_W, PANEL_H);
-
-  // ==================================================
   // PANEL 2
-  // ==================================================
-
   push();
-  translate(PANEL_W, 0);
-
-  drawSecondPanel(step);
-
+  translate(currentPanelW, 0);
+  drawSecondPanel(step, titleSize, labelSize, titleY);
   pop();
 
-  // divider
-  stroke(0);
-  line(PANEL_W * 2, 0, PANEL_W * 2, PANEL_H);
-
-  // ==================================================
   // PANEL 3
-  // ==================================================
-
   push();
-  translate(PANEL_W * 2, 0);
-
-  drawThirdPanel(step);
-
+  translate(currentPanelW * 2, 0);
+  drawThirdPanel(step, titleSize, labelSize, titleY);
   pop();
 }
 
@@ -109,32 +125,29 @@ function draw() {
 // PANEL 1
 // ======================================================
 
-function drawFirstPanel(step) {
-  stroke(0);
-  fill(0);
-
+function drawFirstPanel(step, titleSize, labelSize, titleY) {
   drawSkeleton();
 
   drawTextSafe(
-    `Prima interpolazione lineare, spaziato al ${step}% (${Math.floor(99 / step)} segmenti)`,
-    5,
-    15
+    `Prima interpolazione lineare, spaziato al ${step}%`,
+    currentPanelW / 2, 
+    titleY,
+    titleSize,
+    true
   );
 
-  // SOLO interpolazioni
   for (let i = step; i < 100; i += step) {
     const t = i / 100;
-
     setIterationColor(i);
 
     const np2 = p5.Vector.lerp(points[0], points[1], t);
     const np3 = p5.Vector.lerp(points[1], points[2], t);
 
-    circle(np2.x, np2.y, 8);
-    drawTextSafe(`${i}%`, np2.x + 10, np2.y);
+    circle(np2.x, np2.y, 8 * scaleFactor); 
+    drawTextSafe(`${i}%`, np2.x - (36 * scaleFactor), np2.y + (4 * scaleFactor), labelSize); 
 
-    circle(np3.x, np3.y, 8);
-    drawTextSafe(`${i}%`, np3.x - 10, np3.y - 15);
+    circle(np3.x, np3.y, 8 * scaleFactor);
+    drawTextSafe(`${i}%`, np3.x + (12 * scaleFactor), np3.y + (4 * scaleFactor), labelSize); 
   }
 
   drawControlPoints();
@@ -144,36 +157,32 @@ function drawFirstPanel(step) {
 // PANEL 2
 // ======================================================
 
-function drawSecondPanel(step) {
-  stroke(0);
-  fill(0);
-
+function drawSecondPanel(step, titleSize, labelSize, titleY) {
   drawSkeleton();
 
   drawTextSafe(
-    `Seconda interpolazione, tra ogni coppia generata`,
-    5,
-    15
+    `Seconda interpolazione, tra coppie`,
+    currentPanelW / 2, 
+    titleY,
+    titleSize,
+    true
   );
 
   for (let i = step; i < 100; i += step) {
     const t = i / 100;
-
     setIterationColor(i);
 
     const np2 = p5.Vector.lerp(points[0], points[1], t);
     const np3 = p5.Vector.lerp(points[1], points[2], t);
 
+    strokeWeight(1 * scaleFactor);
     line(np2.x, np2.y, np3.x, np3.y);
 
-    circle(np2.x, np2.y, 8);
-    circle(np3.x, np3.y, 8);
+    circle(np2.x, np2.y, 6 * scaleFactor);
+    circle(np3.x, np3.y, 6 * scaleFactor);
 
     const np4 = p5.Vector.lerp(np2, np3, t);
-
-    circle(np4.x, np4.y, 4);
-
-    drawTextSafe(`${i}%`, np4.x + 10, np4.y + 10);
+    circle(np4.x, np4.y, 7 * scaleFactor);
   }
 
   drawControlPoints();
@@ -183,115 +192,77 @@ function drawSecondPanel(step) {
 // PANEL 3
 // ======================================================
 
-function drawThirdPanel(step) {
-  stroke(0);
-  fill(0);
-
+function drawThirdPanel(step, titleSize, labelSize, titleY) {
   drawSkeleton();
 
   drawTextSafe(
-    `Punti della curva generati in questo modo`,
-    5,
-    15
+    `Punti della curva generati`,
+    currentPanelW / 2, 
+    titleY,
+    titleSize,
+    true
   );
 
   for (let i = step; i < 100; i += step) {
     const t = i / 100;
-
     setIterationColor(i);
 
     const np2 = p5.Vector.lerp(points[0], points[1], t);
     const np3 = p5.Vector.lerp(points[1], points[2], t);
-
     const np4 = p5.Vector.lerp(np2, np3, t);
 
-    circle(np4.x, np4.y, 4);
+    circle(np4.x, np4.y, 7 * scaleFactor);
 
-    drawTextSafe(
-      `ratio = ${(i / 100).toFixed(2)}`,
-      np4.x + 10,
-      np4.y + 15
-    );
+    if (step >= 20 || i == 50) { 
+      drawTextSafe(
+        `t=${(i / 100).toFixed(2)}`,
+        np4.x + (12 * scaleFactor),
+        np4.y + (4 * scaleFactor),
+        labelSize
+      );
+    }
   }
 
   drawControlPoints();
 }
 
 // ======================================================
-// QUADRATIC BEZIER
-// ======================================================
-
-function quadraticPoint(t) {
-  const p0 = points[0];
-  const p1 = points[1];
-  const p2 = points[2];
-
-  const mt = 1 - t;
-
-  return createVector(
-    mt * mt * p0.x +
-    2 * mt * t * p1.x +
-    t * t * p2.x,
-
-    mt * mt * p0.y +
-    2 * mt * t * p1.y +
-    t * t * p2.y
-  );
-}
-
-// ======================================================
-// SKELETON
+// SKELETON E GESTIONE MOUSE
 // ======================================================
 
 function drawSkeleton() {
-  stroke(0);
-  strokeWeight(1);
+  stroke(226); 
+  strokeWeight(1.2 * scaleFactor);
   noFill();
 
   beginShape();
-
   for (let p of points) {
     vertex(p.x, p.y);
   }
-
   endShape();
 }
 
-// ======================================================
-// CONTROL POINTS
-// ======================================================
-
 function drawControlPoints() {
   stroke(0);
-  strokeWeight(1.5);
+  strokeWeight(1.5 * scaleFactor);
   fill(255);
 
   for (let p of points) {
-    circle(p.x, p.y, 12);
+    circle(p.x, p.y, 12 * scaleFactor); 
   }
 }
 
-// ======================================================
-// COLOR GRADIENT
-// ======================================================
-
 function setIterationColor(i) {
-  const r = 2 * i;
-  const b = 255 - 2 * i;
-
+  const r = 2.5 * i;
+  const b = 255 - 2.5 * i;
   fill(r, 0, b);
-  stroke(r, 0, b, 90);
+  stroke(r, 0, b, 100); 
 }
 
-// ======================================================
-// DRAGGING
-// ======================================================
-
 function mousePressed() {
-  const localX = mouseX % PANEL_W;
-
+  let localX = mouseX % currentPanelW;
   for (let p of points) {
-    if (dist(localX, mouseY, p.x, p.y) < 10) {
+    if (dist(localX, mouseY, p.x, p.y) < 22 * scaleFactor) { 
       selectedPoint = p;
       break;
     }
@@ -300,11 +271,28 @@ function mousePressed() {
 
 function mouseDragged() {
   if (selectedPoint) {
-    selectedPoint.x = constrain(mouseX % PANEL_W, 0, PANEL_W);
-    selectedPoint.y = constrain(mouseY, 0, PANEL_H);
+    selectedPoint.x = constrain(mouseX % currentPanelW, 25 * scaleFactor, currentPanelW - (25 * scaleFactor));
+    selectedPoint.y = constrain(mouseY, 15 * scaleFactor, currentPanelH - (10 * scaleFactor));
   }
 }
 
 function mouseReleased() {
   selectedPoint = null;
+}
+
+function windowResized() {
+  let canvasWidth = windowWidth;
+  scaleFactor = canvasWidth / 1800;
+  if (scaleFactor < 0.5) scaleFactor = 0.5;
+
+  let canvasHeight = 590 * scaleFactor;
+  resizeCanvas(canvasWidth, canvasHeight);
+
+  currentPanelW = canvasWidth / 3;
+  currentPanelH = canvasHeight - (150 * scaleFactor);
+
+  initPoints();
+
+  stepSlider.position(0, canvasHeight - (20 * scaleFactor));
+  stepSlider.style("width", (180 * scaleFactor) + "px");
 }
