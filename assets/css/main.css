@@ -202,6 +202,30 @@ section {
     flex: 1;
 }
 
+/* Keep section titles visually fixed next to their content while scrolling.
+   Exclude the floating index title (.indice-titolo). */
+.filetto .titolo-sezione {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 100px; /* distance from the viewport top where title will stick */
+    align-self: flex-start;
+    z-index: 3;
+    transition: transform 260ms cubic-bezier(.22,.9,.32,1), opacity 200ms ease;
+    will-change: transform, opacity;
+}
+
+/* Slight visual lift when sticky engages on supporting browsers */
+.filetto .titolo-sezione:where(:not(.indice-titolo)) {
+    /* no-op placeholder to keep selector explicit about exclusion */
+}
+
+@media (max-width: 800px) {
+    .filetto .titolo-sezione {
+        position: relative; /* disable sticky on small screens for better flow */
+        top: auto;
+    }
+}
+
 .contenuto-sezione ul {
     list-style: none;
     margin-top: 10px;

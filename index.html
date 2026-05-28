@@ -86,40 +86,52 @@
         <section id="bernstein" class="filetto curva-4">
             <h4 class="titolo-sezione">Polinomi di Bernstein</h4>
             <div class="contenuto-sezione">
-                <p>Le curve di Bézier usano i polinomi di Bernstein per unire i punti di controllo in una linea
-                    continua. I polinomi estraggono i coefficienti dal <strong>triangolo di Pascal</strong> e dallo <strong>sviluppo binomiale</strong>
-                    per assegnare a ogni punto un <strong>peso</strong> geometrico variabile in base al parametro t. Questo peso
-                    cambia in modo graduale lungo l'intervallo [0,1], assicurando che l'influenza di ciascun punto
-                    si distribuisca progressivamente senza generare salti o discontinuità per una transizione fluida
-                    della forma.</p>
-                <p>Il triangolo di Pascal definisce la struttura combinatoria dei coefficienti binomiali che regolano i
-                    pesi dei punti di controllo. Nelle curve di Bézier, questi valori non selezionano i singoli punti,
-                    ma permettono a tutti di contribuire contemporaneamente e in modo continuo alla costruzione della
-                    forma. L'influenza di ciascun punto varia in base al parametro \(t\), garantendo una distributione
-                    dei pesi sempre ordinata e simmetrica lungo l'intero percorso della curva.</p>
-                <p>Partendo dalla forma base del binomio: \((a+b)^n\) e sostituendo con \(a=(1-t)\) e \(b=t\) si
-                    ottiene: \(((1-t)+t)^n\) che, sviluppato tramite i coefficienti del triangolo di Pascal, genera i
-                    polinomi utilizzati nelle curve di Bézier.</p>
+                
+                <div style="display: flex; gap: 4%; align-items: flex-start; flex-wrap: wrap; margin-bottom: 20px;">
+                    
+                    <div style="flex: 1; min-width: 280px; max-width: 44em;">
+                        <p>Le curve di Bézier usano i polinomi di Bernstein per unire i punti di controllo in una linea
+                            continua. I polinomi estraggono i coefficienti dal <strong>triangolo di Pascal</strong> e dallo <strong>sviluppo binomiale</strong>
+                            per assegnare a ogni punto un <strong>peso</strong> geometrico variabile in base al parametro t. Questo peso
+                            cambia in modo graduale lungo l'intervallo [0,1], assicurando che l'influenza di ciascun punto
+                            si distribuisca progressivamente senza generare salti o discontinuità per una transizione fluida
+                            della forma.</p>
+
+                        <p style="margin-bottom: 0;">Il triangolo di Pascal definisce la <strong>struttura combinatoria</strong> dei coefficienti binomiali che regolano i
+                            pesi dei punti di controllo. Nelle curve di Bézier, questi valori non selezionano i singoli punti,
+                            ma permettono a tutti di contribuire contemporaneamente e in modo continuo alla costruzione della
+                            forma. </p>
+                    </div>
+
+                    <div style="flex: 0 0 420px; max-width: 100%; margin: 0;">
+                        <iframe scrolling="no" frameborder="0" height="520" src="./assets/sketches/grafico_polinomi_bernstein/" style="margin: 0;"></iframe>
+                    </div>
+
+                </div>
+
+                <div class="gallery-container" style="margin-top: 10px;">
+                    <img src="assets/img/triangolo di pascal.jpeg" alt="Triangolo di Pascal" class="img-base img-pascal">
+                </div> 
+                
+                <p>Partendo dalla forma base del binomio: (a+b)<sup>n</sup> e sostituendo con a=(1-t) e b=t si
+                   ((1-t)+t)<sup>n</sup> che, sviluppato tramite i coefficienti del triangolo di Pascal, genera i
+                     <strong>  polinomi utilizzati nelle curve di Bézier</strong>.</p>
 
                 <div class="gallery-container">
-                    <img src="assets/img/polinomi_curve_bezier.png" alt="Diagramma polinomi di Bernstein"
-                        class="img-base img-polinomi">
-                    <img src="assets/img/triangolo di pascal.jpeg" alt="Triangolo di Pascal"
-                        class="img-base img-pascal">
-                    <img src="assets/img/curva di bezier.png" alt="Grafico curva di Bézier" class="img-base img-bezier">
+                    <img src="assets/img/polinomi_curve_bezier.png" alt="Diagramma polinomi di Bernstein" class="img-base img-polinomi">
+                    <img src="assets/img/bezier_curve.png" alt="Grafico curva di Bézier" class="img-base img-bezier">
                 </div>
+                
             </div>
         </section>
 
         <section id="controllo" class="filetto curva-5">
             <h4 class="titolo-sezione">Controllo della curva di Bézier</h4>
             <div class="contenuto-sezione">
-                <p>Le curve di Bézier razionali evolvono i modelli tradizionali introducendo pesi associati ai punti di
-                    controllo, che regolano l'intensità con cui ogni punto attrae o allontana la curva. Questa
-                    caratteristica garantisce un'estrema flessibilità e precisione nella modellazione di forme
-                    complesse, mantenendo comunque la curva sempre all'interno dell'involucro convesso dei suoi punti (w>0).
-                    Infine, la visualizzazione in tempo reale di coordinate e pesi permette di comprendere l'esatto
-                    contributo matematico di ogni singolo elemento sul risultato finale.</p>
+                <p>Il controllo avanzato delle forme avviene introducendo i <strong>pesi associati ai punti di controllo</strong>, 
+                che regolano l'intensità con cui ogni elemento attrare o allontana il tracciato. Questa caratteristica garantisce 
+                un'estrema precisione nella modellazione, mantenendo comunque la curva sempre racchiusa all'interno 
+                dell'<strong>involucro convesso</strong> dei suoi punti, a patto che la variabile sia positiva (<strong>w&gt;0</strong>).</p>
                 <img src="assets/img/controllo curva tradotta.png" alt="Interfaccia di controllo della curva"
                     class="img-base img-controllo">
             </div>
@@ -128,11 +140,11 @@
         <section id="razionali" class="filetto curva-6">
             <h4 class="titolo-sezione">Curve di Bézier Razionali</h4>
             <div class="contenuto-sezione">
-                <p>Le curve di Bézier razionali sono un'estensione delle curve di Bézier standard, che introducono un
-                    ulteriore livello di controllo attraverso l'assegnazione di pesi specifici a ciascun punto di
-                    controllo. Questi pesi permettono di influenzare la forma della curva in modo più flessibile,
-                    consentendo di creare curvature più complesse. Sommando weight e ratio otteniamo "quanto fortemente"
-                    ciascuna coordinata influenza la curva. Rende le curve estremamente modificabili.</p>
+                <p>Le <strong>curve di Bézier razionali</strong> nascono proprio come estensione dei modelli standard per integrare 
+                questo sistema di controllo. Sommando <strong>weight e ratio</strong> si definisce geometricamente "quanto fortemente" 
+                ciascuna coordinata influenzi il tracciato. Questa combinazione matematica rende le curve 
+                <strong>estremamente modificabili</strong> rispetto ai modelli tradizionali, consentendo di generare curvature 
+                complesse e sezioni coniche perfette non altrimenti descrivibili.</p>
                 <p><em class="no-uppercase">Controllo curve: variazione dei pesi dei punti di controllo e la curva di
                         Bézier razionale risultante</em></p>
                 <iframe scrolling="no" frameborder="0" height="500"
